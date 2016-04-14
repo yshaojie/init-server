@@ -1,0 +1,4 @@
+server_args=xxx
+server_jvm_args=xxx
+server_name=test
+server_main_class=xxx
