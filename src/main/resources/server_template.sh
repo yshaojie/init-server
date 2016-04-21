@@ -20,7 +20,7 @@ server_class_path="";
 ###########################################
 
 get_server_pids() {
-    pids=( `ps -eo pid,user,cmd | grep "${server_home}" | grep "${server_main_class}" | awk '{print $1}'` )
+    pids=( `ps -eo pid,user,cmd | grep "${server_resources}" | grep "${server_main_class}" |  awk '$3=="java" {print $1}'` )
 }
 
 set_high_priority_jar() {
