@@ -29,5 +29,6 @@ do
     server_class_path=$server_class_path:${server_home}/lib/$i
 done
 export CLASSPATH=${server_class_path}
-
-java ${main_class} $1
+server_ip=$(ifconfig | grep -e "inet:" -e "addr:" | grep -v "inet6" | grep -v "127.0.0.1" | head -n 1 | awk '{print $2}' | cut -c6-)
+echo "server_ip=${server_ip}"
+java ${main_class} $1 $server_ip

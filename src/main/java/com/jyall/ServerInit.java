@@ -19,8 +19,14 @@ public class ServerInit {
     public static final String LOG_ROOT = "/data/logs/";
     public static final String SERVER_ROOT = "/servers/";
     public static void main(String[] args) throws IOException {
-        if (args == null || args.length<1) {
+        if (args == null || args.length<2) {
             System.err.println("please set zhe config file.");
+            System.exit(1);
+        }
+        //本机服务ip
+        String serverIp = args[1].trim();
+        if (!InetAddressUtils.isIPv4Address(serverIp) || "127.0.0.1".equals(serverIp)) {
+            System.err.println("valid ip="+serverIp);
             System.exit(1);
         }
         File file = new File(args[0]);
@@ -41,6 +47,7 @@ public class ServerInit {
         String server_jvm_args= StringUtils.trimToNull(properties.getProperty("server_jvm_args"));
         String server_name= StringUtils.trimToNull(properties.getProperty("server_name"));
         String server_main_class= StringUtils.trimToNull(properties.getProperty("server_main_class"));
+        String server_ip= StringUtils.trimToNull(serverIp);
         boolean valid = true;
         if (server_jvm_args == null) {
             System.err.println("property server_jvm_args not exist.");
@@ -84,6 +91,7 @@ public class ServerInit {
         params.put("server_main_class",server_main_class);
         params.put("server_home",server_home);
         params.put("server_log_home", server_log_home);
+        params.put("server_ip", server_ip);
         exec(params);
     }
 

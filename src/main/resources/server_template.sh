@@ -9,6 +9,7 @@
 ###########################################
 ########replaced parameters################
 ###########################################
+server_ip="{{server_ip}}"
 server_args="{{server_args}}"
 server_jvm_args="{{server_jvm_args}}"
 server_name="{{server_name}}"
@@ -77,7 +78,7 @@ start_server() {
     start_time=`date "+%Y-%m-%d %H:%M:%S"`
 
     #start the server
-    java ${server_jvm_args} -Dstart_time="${start_time}" -Dserver_home=${server_home} -Dserver_log_home=${server_log_home} -Dserver_resources=${server_resources} -Dserver_name=${server_name} ${system_props} ${server_main_class} ${server_args} >> ${server_log_home}/${server_name}.log 2>&1 &
+    java ${server_jvm_args} -Dserver_ip=${server_ip} -Dstart_time="${start_time}" -Dserver_home=${server_home} -Dserver_log_home=${server_log_home} -Dserver_resources=${server_resources} -Dserver_name=${server_name} ${system_props} ${server_main_class} ${server_args} >> ${server_log_home}/${server_name}.log 2>&1 &
     sleep 3
     get_server_pids
     if [ ${#pids[*]} -gt 1 ]; then
