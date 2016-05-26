@@ -18,6 +18,8 @@ server_home="{{server_home}}"
 server_log_home="{{server_log_home}}"
 server_resources="{{server_home}}/resources/"
 server_class_path="";
+disconf_env=${disconf_env}
+disconf_user_define_download_dir=${server_log_home}/.disconf
 ###########################################
 
 get_server_pids() {
@@ -45,6 +47,9 @@ start_server() {
 
     echo ""
     echo "#########server configs################################################################################"
+    echo "  disconf.env=${disconf_env}"
+    echo "  disconf.user_define_download_dir=${disconf_user_define_download_dir}"
+    echo "  server_ip=${server_ip}"
     echo "  server_args=${server_args}"
     echo "  server_jvm_args=${server_jvm_args}"
     echo "  server_name=${server_name}"
@@ -78,7 +83,7 @@ start_server() {
     start_time=`date "+%Y-%m-%d %H:%M:%S"`
 
     #start the server
-    java ${server_jvm_args} -Dserver_ip=${server_ip} -Dstart_time="${start_time}" -Dserver_home=${server_home} -Dserver_log_home=${server_log_home} -Dserver_resources=${server_resources} -Dserver_name=${server_name} ${system_props} ${server_main_class} ${server_args} >> ${server_log_home}/${server_name}.log 2>&1 &
+    java ${server_jvm_args} -Ddisconf.env=${disconf_env} -Ddisconf.user_define_download_dir=${disconf_user_define_download_dir} -Dserver_ip=${server_ip} -Dstart_time="${start_time}" -Dserver_home=${server_home} -Dserver_log_home=${server_log_home} -Dserver_resources=${server_resources} -Dserver_name=${server_name} ${system_props} ${server_main_class} ${server_args} >> ${server_log_home}/${server_name}.log 2>&1 &
     sleep 3
     get_server_pids
     if [ ${#pids[*]} -gt 1 ]; then

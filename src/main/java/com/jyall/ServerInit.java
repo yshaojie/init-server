@@ -5,6 +5,7 @@ import com.samskivert.mustache.Template;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.SystemUtils;
 
 import java.io.*;
 import java.util.HashMap;
@@ -102,8 +103,8 @@ public class ServerInit {
         final String server_name = params.get("server_name");
         File shellFile = new File(server_home +"/server.sh");
         if (shellFile.exists()) {
-            System.err.println(params.get("server_name")+" 已经初始化.");
-            System.exit(1);
+            System.err.println(params.get("server_name")+" 已经初始化.本次操作将会覆盖启动脚本");
+            shellFile.renameTo(new File(server_home,shellFile.getName()+".bak."+ System.currentTimeMillis()));
         }
         //创建文件
         FileUtils.touch(shellFile);
